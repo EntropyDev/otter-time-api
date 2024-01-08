@@ -17,6 +17,7 @@ const UserSchema = new Schema({
             }
         }
     },
+    password: {type:String, require: true},
     photo_url: {type: String, default:'dummy'},
     is_pro: {type: Boolean, default:false},
     is_female: {type: Boolean, default:false},
@@ -26,6 +27,9 @@ const UserSchema = new Schema({
     wallet: {type: Number, default:0},
     stage: {type: String, default:'A1'},
     streak: {type:Number, default:0},
+    data: {
+        type: Object, default:{}
+    },
     created_at: {
         type: Date,
         default: Date.now,

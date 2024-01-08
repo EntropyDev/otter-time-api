@@ -2,7 +2,7 @@ import express from 'express'
 import 'dotenv/config'
 import mongoose from 'mongoose'
 import { User } from './models/Users.js'
-import {signUp} from './Controllers/Auth.js'
+import {authenticateToken, login, signUp} from './Controllers/Auth.js'
 
 const app = express()
 const port = process.env.PORT
@@ -36,9 +36,23 @@ app.get('/getUsers', async (req, res) => {
 })
 
 app.post('/signup' , signUp, (req, res) => {
-    console.log("works")
     res.status(res.locals.status).send(res.locals.msg)
-} )
+})
+
+app.post('/login', login, (req,res) => {
+    res.status(res.locals.status).send(res.locals.msg)
+})
+
+app.get('/:username',authenticateToken, async (req, res) => {
+    try{
+        let {email} = req.user
+        const user = await User.findOne({email})
+        const {first_name, second_name, username, is_pro, is_female, photo_url, wallet, streak, stage, purchased_items, data} = user
+        res.json({user:{first_name, second_name, email, username, is_pro, is_female, photo_url, wallet, streak, stage, purchased_items, data}})
+    }catch(err){
+       res.status(500).send("Server error") 
+    }
+})
 
 
 app.listen(port, async () => {
