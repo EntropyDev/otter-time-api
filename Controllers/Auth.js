@@ -2,10 +2,11 @@ import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken'
 import mongoose from 'mongoose'
 import { User } from '../models/Users.js'
+import { generateNewCalData } from './CalData.js'
 
 export const signUp = async (req, res, next) => {
     let { name: first_name, email, password } = req.body
-    let username = 'user2'
+    let username = 'user_'+first_name
 
     try{
         // Check if the email is already in use
@@ -18,7 +19,8 @@ export const signUp = async (req, res, next) => {
         const hashedPassword = await bcrypt.hash(password, 10);
 
         // Create a new user
-        const newUser = new User({ first_name, email, password: hashedPassword, username });
+        const newDataId = await generateNewCalData()
+        const newUser = new User({ first_name, email, password: hashedPassword, username, dataId: newDataId });
         await newUser.save();
         res.locals = {status:201,msg: 'User created successfully'}
         next()
