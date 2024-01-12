@@ -16,7 +16,6 @@ const db = mongoose.connection
 
 app.use(express.json())
 
-
 db.once('open', async ()=>{
     console.log('Connected to db')
 })
