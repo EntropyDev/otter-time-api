@@ -29,5 +29,5 @@ jobs:
               git pull origin dev &&
               sudo npm i &&
               # sudo npm run build &&
-              sudo nodemon .
+              sudo node .
               '
