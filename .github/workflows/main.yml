@@ -30,4 +30,4 @@ jobs:
               sudo npm i &&
               sudo npm run build &&
               sudo nodemon .
-      
+              '
